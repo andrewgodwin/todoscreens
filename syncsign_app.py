@@ -62,7 +62,7 @@ class App:
         elif buttonMask == BUTTON_MASK_4 and status == BUTTON_STATUS_PRESSED:
             self.loop.create_task(self.postRequest(REFRESH_URL))
 
-    async def postRequest(self, url, headers={}):
+    async def postRequest(self, url):
         log.info("Requesting %s" % url)
         import arequests as requests
 
@@ -70,11 +70,11 @@ class App:
         resultStr = None
         try:
             response = await requests.post(
-                url, headers=headers, data=None, verify=False
+                url, headers={"Content-Length": "0"}, data=None, verify=False
             )
             resultStr = await response.text
         except Exception as e:
-            log.exception(e, "request fail: %s" % e)
+            log.exception(e, "request fail: %r" % e)
         if response:
             log.info("status code: %d", response.status_code)
             await response.close()

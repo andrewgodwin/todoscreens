@@ -39,7 +39,7 @@ class TodoistClient:
         Closes a task by ID
         """
         requests.post(
-            "https://api.todoist.com/rest/v1/tasks/%s/reopen" % task_id,
+            "https://api.todoist.com/rest/v1/tasks/%s/close" % task_id,
             headers={"Authorization": "Bearer %s" % self.api_key},
         )
 

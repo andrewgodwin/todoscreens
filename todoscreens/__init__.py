@@ -32,7 +32,7 @@ def top_done(token, number):
         if len(tasks) > index:
             todoist.close_task(tasks[index].id)
             run_update()
-            return "OK"
+            return "Closed %s: %s" % (tasks[index].id, tasks[index].title)
         else:
             return "No tasks to close"
     else:

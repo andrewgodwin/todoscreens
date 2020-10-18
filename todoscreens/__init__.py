@@ -98,7 +98,7 @@ def render_todos(todoist: TodoistClient):
             )
         )
         # Icon
-        icon_codepoint = {3: "\uf102", 2: "\uf106", 1: "\uf107", 0: "\uf103"}[
+        icon_codepoint = {4: "\uf102", 3: "\uf106", 2: "\uf107", 1: "\uf103"}[
             todo.priority
         ]
         template.add(

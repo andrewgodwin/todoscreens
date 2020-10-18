@@ -51,7 +51,7 @@ class Layout:
         items=None,
         background: ColorType = "WHITE",
         button_zone: bool = False,
-        poll_rate: int = 5000,
+        poll_rate: int = 10000,
     ):
         self.items = items or []
         self.background = background

@@ -70,7 +70,7 @@ def render_todos(todoist: TodoistClient):
     )
 
     # Buttons
-    template.add(BottomButtons([("Top Done", True)]))
+    template.add(BottomButtons([("Top Done", True), ("Refresh", True)]))
 
     # Todo items
     y_offset = 34

@@ -33,7 +33,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |
-        docker build -t gcr.io/"$GOOGLECLOUD_PROJECT"/"$IMAGE":"$IMAGE_TAG" server
+        docker build -t gcr.io/"$GOOGLECLOUD_PROJECT"/"$IMAGE":"$IMAGE_TAG" .
 
     # Push the Docker image to Google Container Registry
     - name: Publish

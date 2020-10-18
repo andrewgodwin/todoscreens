@@ -14,7 +14,7 @@ def hello():
     return "OK"
 
 
-@app.route("/update/<token>")
+@app.route("/update/<token>", methods=["GET", "POST"])
 def update(token):
     if token == os.environ["UPDATE_TOKEN"]:
         run_update()
@@ -23,13 +23,14 @@ def update(token):
         return "Bad token"
 
 
-@app.route("/update/<token>/top_done")
-def top_done(token):
+@app.route("/update/<token>/done/<number>", methods=["POST"])
+def top_done(token, number):
+    index = int(number) - 1
     if token == os.environ["UPDATE_TOKEN"]:
         todoist = TodoistClient(api_key=os.environ["TODOIST_TOKEN"])
         tasks = todoist.get_pending()
-        if tasks:
-            todoist.close_task(tasks[0].id)
+        if len(tasks) > index:
+            todoist.close_task(tasks[index].id)
             run_update()
             return "OK"
         else:
@@ -54,6 +55,8 @@ def render_todos(todoist: TodoistClient):
     Renders todo items into a SyncSign template
     """
 
+    todos = todoist.get_pending()
+
     # Create template
     template = Layout()
 
@@ -71,11 +74,20 @@ def render_todos(todoist: TodoistClient):
     )
 
     # Buttons
-    template.add(BottomButtons([("Top Done", True), ("Refresh", True)]))
+    template.add(
+        BottomButtons(
+            [
+                ("#1 done", len(todos) >= 1),
+                ("#2 done", len(todos) >= 2),
+                ("#3 done", len(todos) >= 3),
+                ("Refresh", True),
+            ]
+        )
+    )
 
     # Todo items
     y_offset = 34
-    for i, todo in enumerate(todoist.get_pending()):
+    for i, todo in enumerate(todos):
         # Title
         template.add(
             Text(

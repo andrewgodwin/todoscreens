@@ -23,7 +23,9 @@ BUTTON_STATUS_PRESSED = const(0)
 
 UPDATE_TOKEN = "???"
 REFRESH_URL = "https://todoscreens.aeracode.org/update/%s" % UPDATE_TOKEN
-TOP_DONE_URL = "https://todoscreens.aeracode.org/update/%s/top_done" % UPDATE_TOKEN
+ONE_DONE_URL = "https://todoscreens.aeracode.org/update/%s/done/1" % UPDATE_TOKEN
+TWO_DONE_URL = "https://todoscreens.aeracode.org/update/%s/done/2" % UPDATE_TOKEN
+THREE_DONE_URL = "https://todoscreens.aeracode.org/update/%s/done/3" % UPDATE_TOKEN
 
 log = logging.getLogger("APP")
 log.setLevel(logging.DEBUG)
@@ -52,25 +54,27 @@ class App:
         """
         log.info("Got button event %s" % buttonMask)
         if buttonMask == BUTTON_MASK_1 and status == BUTTON_STATUS_PRESSED:
-            self.loop.create_task(self.postRequest(TOP_DONE_URL))
+            self.loop.create_task(self.postRequest(ONE_DONE_URL))
         elif buttonMask == BUTTON_MASK_2 and status == BUTTON_STATUS_PRESSED:
-            self.loop.create_task(self.postRequest(REFRESH_URL))
+            self.loop.create_task(self.postRequest(TWO_DONE_URL))
         elif buttonMask == BUTTON_MASK_3 and status == BUTTON_STATUS_PRESSED:
-            pass
+            self.loop.create_task(self.postRequest(THREE_DONE_URL))
         elif buttonMask == BUTTON_MASK_4 and status == BUTTON_STATUS_PRESSED:
             self.loop.create_task(self.postRequest(REFRESH_URL))
 
-    async def postRequest(self, url, headers={}, json={}):
+    async def postRequest(self, url, headers={}):
         log.info("Requesting %s" % url)
         import arequests as requests
 
         response = None
         resultStr = None
         try:
-            response = await requests.post(url, headers=headers, data=None, json=json)
+            response = await requests.post(
+                url, headers=headers, data=None, verify=False
+            )
             resultStr = await response.text
         except Exception as e:
-            log.exception(e, "request fail")
+            log.exception(e, "request fail: %s" % e)
         if response:
             log.info("status code: %d", response.status_code)
             await response.close()

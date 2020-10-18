@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "todoscreens"
+version = "1.0.0"
+description = ""
+authors = ["Andrew Godwin <andrew@aeracode.org>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.24.0"
+flask = "^1.1.2"
+gunicorn = "^20.0.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.4"
+black = {version = "^19.10b0", allow-prereleases = true}
+mypy = "^0.782"

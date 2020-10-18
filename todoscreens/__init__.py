@@ -22,6 +22,19 @@ def update(token):
         return "Bad token"
 
 
+@app.route("/update/<token>/top_done")
+def top_done(token):
+    if token == os.environ["UPDATE_TOKEN"]:
+        todoist = TodoistClient(api_key=os.environ["TODOIST_TOKEN"])
+        tasks = todoist.get_pending()
+        if tasks:
+            todoist.close_task(tasks[0].id)
+        else:
+            return "No tasks to close"
+    else:
+        return "Bad token"
+
+
 def run_update():
     todoist = TodoistClient(api_key=os.environ["TODOIST_TOKEN"])
     syncsign = SyncSignClient(api_key=os.environ["SYNCSIGN_TOKEN"])

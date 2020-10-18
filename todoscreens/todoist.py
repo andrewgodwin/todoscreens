@@ -34,6 +34,15 @@ class TodoistClient:
         todos.sort(key=lambda x: x.priority, reverse=True)
         return todos
 
+    def close_task(self, task_id):
+        """
+        Closes a task by ID
+        """
+        requests.post(
+            "https://api.todoist.com/rest/v1/tasks/%s/reopen" % task_id,
+            headers={"Authorization": "Bearer %s" % self.api_key},
+        )
+
 
 @dataclass
 class Todo:

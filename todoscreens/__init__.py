@@ -29,6 +29,8 @@ def top_done(token):
         tasks = todoist.get_pending()
         if tasks:
             todoist.close_task(tasks[0].id)
+            run_update()
+            return "OK"
         else:
             return "No tasks to close"
     else:

@@ -1,0 +1,23 @@
+name: Update screens
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "*/30 * * * *"
+
+env:
+  UPDATE_TOKEN: ${{ secrets.UPDATE_TOKEN }}
+
+jobs:
+
+  search:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    # Update the screens!
+    - name: Update
+      run: |
+        curl https://todoscreens.aeracode.org/update/$UPDATE_TOKEN

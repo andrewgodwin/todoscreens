@@ -32,7 +32,10 @@ class SyncSignClient:
             json={"layout": layout.export()},
         )
         assert response.status_code == 200
-        print(response.json())
+        data = response.json()
+        assert list(data["data"].values()) == [{"posted": True}], (
+            "Bad response: %s" % data
+        )
 
 
 @dataclass

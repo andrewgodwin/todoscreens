@@ -50,6 +50,7 @@ class App:
             buttonMask: (int) =1, first button; =2, second button; =4, third button; =8, fourth button;
             status: (int) =0, button pressed
         """
+        log.info("Got button event %s" % buttonMask)
         if buttonMask == BUTTON_MASK_1 and status == BUTTON_STATUS_PRESSED:
             self.loop.create_task(self.postRequest(TOP_DONE_URL))
         elif buttonMask == BUTTON_MASK_2 and status == BUTTON_STATUS_PRESSED:
@@ -60,6 +61,7 @@ class App:
             self.loop.create_task(self.postRequest(REFRESH_URL))
 
     async def postRequest(self, url, headers={}, json={}):
+        log.info("Requesting %s" % url)
         import arequests as requests
 
         response = None

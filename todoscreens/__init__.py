@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from flask import Flask, escape, request
@@ -113,5 +114,13 @@ def render_todos(todoist: TodoistClient):
             )
             y_offset += 12
         y_offset += 36
+
+    # Datestamp
+    Text(
+        datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        position=(0, 280),
+        size=(200, 16),
+        font="APRILSANS_16",
+    )
 
     return template
